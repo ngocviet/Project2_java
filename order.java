@@ -59,4 +59,9 @@ public class order {
         this.selers = selers;
     }
 
+    @Override
+    public String toString() {
+        return "order{" + "id_order=" + id_order + ", createDate=" + createDate + ", totalPrice=" + totalPrice + ", selers=" + selers + ", status=" + status + '}';
+    }
+    
 }
