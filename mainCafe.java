@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
@@ -27,12 +26,14 @@ public class mainCafe extends javax.swing.JFrame {
     private ArrayList<JLabel> listJtName;
     private ArrayList<JLabel> listJtPrice;
     private ArrayList<JSpinner> listQuantity = new ArrayList<>();
-    private ArrayList<JCheckBox> listCheckBox = new ArrayList<>();
+    private ArrayList<JLabel> listPurchase = new ArrayList<>();
     private ArrayList<orderDetail> listOrderDetail = new ArrayList<>();
     int v = 0;
     float total = 0;
     float tax = 0;
-    String selers_name = "Viet";
+    String selers_name = "V";
+    int soTrang_int = 1;
+    int total_soTrang = 0;
 
     public mainCafe() {
         initComponents();
@@ -41,7 +42,7 @@ public class mainCafe extends javax.swing.JFrame {
     }
 
     public void init() {
-        setImg();
+        setImg(soTrang_int);
         setTime();
         listQuantity.add(jSpinner1);
         listQuantity.add(jSpinner2);
@@ -52,14 +53,19 @@ public class mainCafe extends javax.swing.JFrame {
         listQuantity.add(jSpinner7);
         listQuantity.add(jSpinner8);
 
-        listCheckBox.add(jCheckBox1);
-        listCheckBox.add(jCheckBox2);
-        listCheckBox.add(jCheckBox3);
-        listCheckBox.add(jCheckBox4);
-        listCheckBox.add(jCheckBox5);
-        listCheckBox.add(jCheckBox6);
-        listCheckBox.add(jCheckBox7);
-        listCheckBox.add(jCheckBox8);
+        listPurchase.add(purchase1);
+        listPurchase.add(purchase2);
+        listPurchase.add(purchase3);
+        listPurchase.add(purchase4);
+        listPurchase.add(purchase5);
+        listPurchase.add(purchase6);
+        listPurchase.add(purchase7);
+        listPurchase.add(purchase8);
+
+        soTrang.setText(soTrang_int + "");
+        total_soTrang = productDAO.getInstance().getAll().size();
+        total_soTrang = (int) total_soTrang / 8 + 1;
+        jLabel8.setEnabled(false);
     }
 
     public void setTime() {
@@ -83,7 +89,7 @@ public class mainCafe extends javax.swing.JFrame {
         }).start();
     }
 
-    public void setImg() {
+    public void setImg(int h) {
         listJlAnh = new ArrayList<>();
         listJlAnh.add(jlAnh1);
         listJlAnh.add(jlAnh2);
@@ -114,15 +120,25 @@ public class mainCafe extends javax.swing.JFrame {
         listJtPrice.add(jtPrice7);
         listJtPrice.add(jtPrice8);
 
-        ArrayList<product> list = productDAO.getInstance().selectProductDisplay();
+        ArrayList<product> list = productDAO.getInstance().selectProductDisplay(h);
 
         int n = list.size();
         for (int i = 0; i < n; i++) {
+            System.out.println(i);
             ImageIcon icon1 = new ImageIcon(getClass().getResource("/img/" + list.get(i).getImg()));
             Image img1 = icon1.getImage().getScaledInstance(listJlAnh.get(i).getWidth(), listJlAnh.get(i).getHeight(), Image.SCALE_SMOOTH);
             listJlAnh.get(i).setIcon(new ImageIcon(img1));
             listJtName.get(i).setText(list.get(i).getName());
             listJtPrice.get(i).setText(list.get(i).getPrice() + " $");
+        }
+        for (int i = n; i < 8; i++) {
+            ImageIcon icon1 = new ImageIcon(getClass().getResource("/img/noimg.png"));
+            Image img1 = icon1.getImage().getScaledInstance(listJlAnh.get(i).getWidth(), listJlAnh.get(i).getHeight(), Image.SCALE_SMOOTH);
+            listJlAnh.get(i).setIcon(new ImageIcon(img1));
+            listJtName.get(i).setText("...");
+            listJtPrice.get(i).setText("...");
+            listQuantity.get(i).setEnabled(false);
+            listPurchase.get(i).setEnabled(false);
         }
     }
 
@@ -135,17 +151,12 @@ public class mainCafe extends javax.swing.JFrame {
         jTextField2.setText("0.0");
         jTextField3.setText("0.0");
 
-        for (JCheckBox jCheckBox : listCheckBox) {
-            jCheckBox.setSelected(false);
-        }
         jTextArea1.setText("");
         v = 0;
         total = 0;
         tax = 0;
         jButton1.setEnabled(true);
-        for (JCheckBox jCheckBox : listCheckBox) {
-            jCheckBox.setEnabled(true);
-        }
+
         for (JSpinner jSpinner : listQuantity) {
             jSpinner.setEnabled(true);
         }
@@ -197,78 +208,81 @@ public class mainCafe extends javax.swing.JFrame {
         jtName1 = new javax.swing.JLabel();
         jLabel49 = new javax.swing.JLabel();
         jLabel50 = new javax.swing.JLabel();
-        jLabel51 = new javax.swing.JLabel();
         jSpinner1 = new javax.swing.JSpinner();
-        jCheckBox1 = new javax.swing.JCheckBox();
         jtPrice1 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        purchase1 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jlAnh2 = new javax.swing.JLabel();
         jtName2 = new javax.swing.JLabel();
         jLabel52 = new javax.swing.JLabel();
         jLabel53 = new javax.swing.JLabel();
-        jLabel54 = new javax.swing.JLabel();
         jSpinner2 = new javax.swing.JSpinner();
-        jCheckBox2 = new javax.swing.JCheckBox();
         jtPrice2 = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        purchase2 = new javax.swing.JLabel();
         jPanel16 = new javax.swing.JPanel();
         jlAnh3 = new javax.swing.JLabel();
         jtName3 = new javax.swing.JLabel();
         jLabel55 = new javax.swing.JLabel();
         jLabel56 = new javax.swing.JLabel();
-        jLabel57 = new javax.swing.JLabel();
         jSpinner3 = new javax.swing.JSpinner();
-        jCheckBox3 = new javax.swing.JCheckBox();
         jtPrice3 = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        purchase3 = new javax.swing.JLabel();
         jPanel18 = new javax.swing.JPanel();
         jlAnh4 = new javax.swing.JLabel();
         jtName4 = new javax.swing.JLabel();
         jLabel61 = new javax.swing.JLabel();
         jLabel62 = new javax.swing.JLabel();
-        jLabel63 = new javax.swing.JLabel();
         jSpinner4 = new javax.swing.JSpinner();
-        jCheckBox4 = new javax.swing.JCheckBox();
         jtPrice4 = new javax.swing.JLabel();
+        jPanel13 = new javax.swing.JPanel();
+        purchase4 = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
         jlAnh5 = new javax.swing.JLabel();
         jtName5 = new javax.swing.JLabel();
         jLabel64 = new javax.swing.JLabel();
         jLabel65 = new javax.swing.JLabel();
-        jLabel66 = new javax.swing.JLabel();
         jSpinner5 = new javax.swing.JSpinner();
-        jCheckBox5 = new javax.swing.JCheckBox();
         jtPrice5 = new javax.swing.JLabel();
+        jPanel17 = new javax.swing.JPanel();
+        purchase5 = new javax.swing.JLabel();
         jPanel20 = new javax.swing.JPanel();
         jlAnh6 = new javax.swing.JLabel();
         jtName6 = new javax.swing.JLabel();
         jLabel67 = new javax.swing.JLabel();
         jLabel68 = new javax.swing.JLabel();
-        jLabel69 = new javax.swing.JLabel();
         jSpinner6 = new javax.swing.JSpinner();
-        jCheckBox6 = new javax.swing.JCheckBox();
         jtPrice6 = new javax.swing.JLabel();
+        jPanel23 = new javax.swing.JPanel();
+        purchase6 = new javax.swing.JLabel();
         jPanel21 = new javax.swing.JPanel();
         jlAnh7 = new javax.swing.JLabel();
         jtName7 = new javax.swing.JLabel();
         jLabel70 = new javax.swing.JLabel();
         jLabel71 = new javax.swing.JLabel();
-        jLabel72 = new javax.swing.JLabel();
         jSpinner7 = new javax.swing.JSpinner();
-        jCheckBox7 = new javax.swing.JCheckBox();
         jtPrice7 = new javax.swing.JLabel();
+        jPanel24 = new javax.swing.JPanel();
+        purchase7 = new javax.swing.JLabel();
         jPanel22 = new javax.swing.JPanel();
         jlAnh8 = new javax.swing.JLabel();
         jtName8 = new javax.swing.JLabel();
         jLabel73 = new javax.swing.JLabel();
         jLabel74 = new javax.swing.JLabel();
-        jLabel75 = new javax.swing.JLabel();
         jSpinner8 = new javax.swing.JSpinner();
-        jCheckBox8 = new javax.swing.JCheckBox();
         jtPrice8 = new javax.swing.JLabel();
+        jPanel25 = new javax.swing.JPanel();
+        purchase8 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        soTrang = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -362,25 +376,52 @@ public class mainCafe extends javax.swing.JFrame {
         jLabel50.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jLabel50.setText("Quantity: ");
 
-        jLabel51.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
-        jLabel51.setText("Purshese: ");
-
         jSpinner1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jSpinner1.setModel(new javax.swing.SpinnerNumberModel(0, 0, 50, 1));
-
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
-            }
-        });
+        jSpinner1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jtPrice1.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jtPrice1.setText("...");
+
+        jPanel8.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        purchase1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        purchase1.setForeground(new java.awt.Color(255, 255, 255));
+        purchase1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        purchase1.setText("Purchase");
+        purchase1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        purchase1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                purchase1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                purchase1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                purchase1MouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(purchase1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(purchase1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jlAnh1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -388,18 +429,15 @@ public class mainCafe extends javax.swing.JFrame {
                     .addGroup(jPanel14Layout.createSequentialGroup()
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel49, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel50, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel51, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel50, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtPrice1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel14Layout.createSequentialGroup()
-                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 73, Short.MAX_VALUE)))))
+                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 73, Short.MAX_VALUE))))
+                    .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addComponent(jlAnh1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -415,11 +453,9 @@ public class mainCafe extends javax.swing.JFrame {
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel50)
                     .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel51)
-                    .addComponent(jCheckBox1))
-                .addGap(0, 10, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
@@ -434,25 +470,52 @@ public class mainCafe extends javax.swing.JFrame {
         jLabel53.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jLabel53.setText("Quantity: ");
 
-        jLabel54.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
-        jLabel54.setText("Purshese: ");
-
         jSpinner2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jSpinner2.setModel(new javax.swing.SpinnerNumberModel(0, 0, 50, 1));
-
-        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox2ActionPerformed(evt);
-            }
-        });
+        jSpinner2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jtPrice2.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jtPrice2.setText("...");
+
+        jPanel10.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        purchase2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        purchase2.setForeground(new java.awt.Color(255, 255, 255));
+        purchase2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        purchase2.setText("Purchase");
+        purchase2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        purchase2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                purchase2MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                purchase2MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                purchase2MouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(purchase2, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(purchase2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
         jPanel15Layout.setHorizontalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jlAnh2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -460,18 +523,15 @@ public class mainCafe extends javax.swing.JFrame {
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel52, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel53, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel54, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel53, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtPrice2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel15Layout.createSequentialGroup()
-                                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 73, Short.MAX_VALUE)))))
+                                .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 73, Short.MAX_VALUE))))
+                    .addComponent(jPanel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addComponent(jlAnh2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -487,11 +547,9 @@ public class mainCafe extends javax.swing.JFrame {
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel53)
                     .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel54)
-                    .addComponent(jCheckBox2))
-                .addGap(0, 10, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel16.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
@@ -506,25 +564,52 @@ public class mainCafe extends javax.swing.JFrame {
         jLabel56.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jLabel56.setText("Quantity: ");
 
-        jLabel57.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
-        jLabel57.setText("Purshese: ");
-
         jSpinner3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jSpinner3.setModel(new javax.swing.SpinnerNumberModel(0, 0, 50, 1));
-
-        jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox3ActionPerformed(evt);
-            }
-        });
+        jSpinner3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jtPrice3.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jtPrice3.setText("...");
+
+        jPanel11.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        purchase3.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        purchase3.setForeground(new java.awt.Color(255, 255, 255));
+        purchase3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        purchase3.setText("Purchase");
+        purchase3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        purchase3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                purchase3MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                purchase3MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                purchase3MouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(purchase3, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(purchase3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
         jPanel16Layout.setHorizontalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jlAnh3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel16Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -532,18 +617,15 @@ public class mainCafe extends javax.swing.JFrame {
                     .addGroup(jPanel16Layout.createSequentialGroup()
                         .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel55, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel56, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel57, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel56, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtPrice3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel16Layout.createSequentialGroup()
-                                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 72, Short.MAX_VALUE)))))
+                                .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 72, Short.MAX_VALUE))))
+                    .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addComponent(jlAnh3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -559,11 +641,9 @@ public class mainCafe extends javax.swing.JFrame {
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel56)
                     .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel57)
-                    .addComponent(jCheckBox3))
-                .addGap(0, 10, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel18.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
@@ -578,25 +658,52 @@ public class mainCafe extends javax.swing.JFrame {
         jLabel62.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jLabel62.setText("Quantity: ");
 
-        jLabel63.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
-        jLabel63.setText("Purshese: ");
-
         jSpinner4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jSpinner4.setModel(new javax.swing.SpinnerNumberModel(0, 0, 50, 1));
-
-        jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox4ActionPerformed(evt);
-            }
-        });
+        jSpinner4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jtPrice4.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jtPrice4.setText("...");
+
+        jPanel13.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        purchase4.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        purchase4.setForeground(new java.awt.Color(255, 255, 255));
+        purchase4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        purchase4.setText("Purchase");
+        purchase4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        purchase4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                purchase4MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                purchase4MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                purchase4MouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(purchase4, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(purchase4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jlAnh4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel18Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -604,18 +711,15 @@ public class mainCafe extends javax.swing.JFrame {
                     .addGroup(jPanel18Layout.createSequentialGroup()
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel61, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel62, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel63, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel62, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtPrice4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel18Layout.createSequentialGroup()
-                                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSpinner4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 72, Short.MAX_VALUE)))))
+                                .addComponent(jSpinner4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 72, Short.MAX_VALUE))))
+                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addComponent(jlAnh4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -631,11 +735,9 @@ public class mainCafe extends javax.swing.JFrame {
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel62)
                     .addComponent(jSpinner4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel63)
-                    .addComponent(jCheckBox4))
-                .addGap(0, 10, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
@@ -650,20 +752,46 @@ public class mainCafe extends javax.swing.JFrame {
         jLabel65.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jLabel65.setText("Quantity: ");
 
-        jLabel66.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
-        jLabel66.setText("Purshese: ");
-
         jSpinner5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jSpinner5.setModel(new javax.swing.SpinnerNumberModel(0, 0, 50, 1));
-
-        jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox5ActionPerformed(evt);
-            }
-        });
+        jSpinner5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jtPrice5.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jtPrice5.setText("...");
+
+        jPanel17.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        purchase5.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        purchase5.setForeground(new java.awt.Color(255, 255, 255));
+        purchase5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        purchase5.setText("Purchase");
+        purchase5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        purchase5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                purchase5MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                purchase5MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                purchase5MouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
+        jPanel17.setLayout(jPanel17Layout);
+        jPanel17Layout.setHorizontalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel17Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(purchase5, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel17Layout.setVerticalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(purchase5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
@@ -676,16 +804,14 @@ public class mainCafe extends javax.swing.JFrame {
                     .addGroup(jPanel19Layout.createSequentialGroup()
                         .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel64, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel65, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel66, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel65, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtPrice5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel19Layout.createSequentialGroup()
-                                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSpinner5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 72, Short.MAX_VALUE)))))
+                                .addComponent(jSpinner5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 72, Short.MAX_VALUE))))
+                    .addComponent(jPanel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addComponent(jlAnh5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -704,10 +830,8 @@ public class mainCafe extends javax.swing.JFrame {
                     .addComponent(jLabel65)
                     .addComponent(jSpinner5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel66)
-                    .addComponent(jCheckBox5))
-                .addGap(0, 10, Short.MAX_VALUE))
+                .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         jPanel20.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
@@ -722,25 +846,52 @@ public class mainCafe extends javax.swing.JFrame {
         jLabel68.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jLabel68.setText("Quantity: ");
 
-        jLabel69.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
-        jLabel69.setText("Purshese: ");
-
         jSpinner6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jSpinner6.setModel(new javax.swing.SpinnerNumberModel(0, 0, 50, 1));
-
-        jCheckBox6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox6ActionPerformed(evt);
-            }
-        });
+        jSpinner6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jtPrice6.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jtPrice6.setText("...");
+
+        jPanel23.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel23.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        purchase6.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        purchase6.setForeground(new java.awt.Color(255, 255, 255));
+        purchase6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        purchase6.setText("Purchase");
+        purchase6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        purchase6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                purchase6MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                purchase6MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                purchase6MouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
+        jPanel23.setLayout(jPanel23Layout);
+        jPanel23Layout.setHorizontalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel23Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(purchase6, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel23Layout.setVerticalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(purchase6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
         jPanel20.setLayout(jPanel20Layout);
         jPanel20Layout.setHorizontalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jlAnh6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel20Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -748,18 +899,15 @@ public class mainCafe extends javax.swing.JFrame {
                     .addGroup(jPanel20Layout.createSequentialGroup()
                         .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel67, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel68, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel69, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel68, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtPrice6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel20Layout.createSequentialGroup()
-                                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSpinner6, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 72, Short.MAX_VALUE)))))
+                                .addComponent(jSpinner6, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 72, Short.MAX_VALUE))))
+                    .addComponent(jPanel23, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addComponent(jlAnh6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel20Layout.setVerticalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -775,11 +923,9 @@ public class mainCafe extends javax.swing.JFrame {
                 .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel68)
                     .addComponent(jSpinner6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel69)
-                    .addComponent(jCheckBox6))
-                .addGap(0, 10, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel21.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
@@ -794,25 +940,52 @@ public class mainCafe extends javax.swing.JFrame {
         jLabel71.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jLabel71.setText("Quantity: ");
 
-        jLabel72.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
-        jLabel72.setText("Purshese: ");
-
         jSpinner7.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jSpinner7.setModel(new javax.swing.SpinnerNumberModel(0, 0, 50, 1));
-
-        jCheckBox7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox7ActionPerformed(evt);
-            }
-        });
+        jSpinner7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jtPrice7.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jtPrice7.setText("...");
+
+        jPanel24.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel24.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        purchase7.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        purchase7.setForeground(new java.awt.Color(255, 255, 255));
+        purchase7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        purchase7.setText("Purchase");
+        purchase7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        purchase7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                purchase7MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                purchase7MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                purchase7MouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
+        jPanel24.setLayout(jPanel24Layout);
+        jPanel24Layout.setHorizontalGroup(
+            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel24Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(purchase7, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel24Layout.setVerticalGroup(
+            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(purchase7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
         jPanel21.setLayout(jPanel21Layout);
         jPanel21Layout.setHorizontalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jlAnh7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel21Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -820,18 +993,15 @@ public class mainCafe extends javax.swing.JFrame {
                     .addGroup(jPanel21Layout.createSequentialGroup()
                         .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel70, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel71, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel72, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel71, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtPrice7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel21Layout.createSequentialGroup()
-                                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSpinner7, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 72, Short.MAX_VALUE)))))
+                                .addComponent(jSpinner7, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 72, Short.MAX_VALUE))))
+                    .addComponent(jPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addComponent(jlAnh7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel21Layout.setVerticalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -847,11 +1017,9 @@ public class mainCafe extends javax.swing.JFrame {
                 .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel71)
                     .addComponent(jSpinner7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel72)
-                    .addComponent(jCheckBox7))
-                .addGap(0, 10, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel22.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
@@ -866,25 +1034,52 @@ public class mainCafe extends javax.swing.JFrame {
         jLabel74.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jLabel74.setText("Quantity: ");
 
-        jLabel75.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
-        jLabel75.setText("Purshese: ");
-
         jSpinner8.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jSpinner8.setModel(new javax.swing.SpinnerNumberModel(0, 0, 50, 1));
-
-        jCheckBox8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox8ActionPerformed(evt);
-            }
-        });
+        jSpinner8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jtPrice8.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jtPrice8.setText("...");
+
+        jPanel25.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel25.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        purchase8.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        purchase8.setForeground(new java.awt.Color(255, 255, 255));
+        purchase8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        purchase8.setText("Purchase");
+        purchase8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        purchase8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                purchase8MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                purchase8MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                purchase8MouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
+        jPanel25.setLayout(jPanel25Layout);
+        jPanel25Layout.setHorizontalGroup(
+            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel25Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(purchase8, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel25Layout.setVerticalGroup(
+            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(purchase8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
         jPanel22.setLayout(jPanel22Layout);
         jPanel22Layout.setHorizontalGroup(
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jlAnh8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel22Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -892,18 +1087,15 @@ public class mainCafe extends javax.swing.JFrame {
                     .addGroup(jPanel22Layout.createSequentialGroup()
                         .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel73, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel74, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel75, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel74, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtPrice8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel22Layout.createSequentialGroup()
-                                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBox8, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSpinner8, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 72, Short.MAX_VALUE)))))
+                                .addComponent(jSpinner8, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 72, Short.MAX_VALUE))))
+                    .addComponent(jPanel25, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addComponent(jlAnh8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel22Layout.setVerticalGroup(
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -919,11 +1111,9 @@ public class mainCafe extends javax.swing.JFrame {
                 .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel74)
                     .addComponent(jSpinner8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel75)
-                    .addComponent(jCheckBox8))
-                .addGap(0, 10, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -959,7 +1149,7 @@ public class mainCafe extends javax.swing.JFrame {
                     .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel19, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1026,6 +1216,27 @@ public class mainCafe extends javax.swing.JFrame {
             }
         });
 
+        soTrang.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
+        soTrang.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        soTrang.setText("1");
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Oxygen-Icons.org-Oxygen-Actions-go-next.48.png"))); // NOI18N
+        jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
+
+        jLabel8.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/left.png"))); // NOI18N
+        jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -1039,7 +1250,13 @@ public class mainCafe extends javax.swing.JFrame {
                 .addComponent(jButton3)
                 .addGap(45, 45, 45)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel8)
+                .addGap(18, 18, 18)
+                .addComponent(soTrang, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel7)
+                .addGap(56, 56, 56))
         );
 
         jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2, jButton3, jButton4});
@@ -1052,7 +1269,10 @@ public class mainCafe extends javax.swing.JFrame {
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4))
+                    .addComponent(jButton4)
+                    .addComponent(soTrang)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -1188,7 +1408,7 @@ public class mainCafe extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         for (int i = 10; i > 1; i--) {
-            float v = (float) i/10;
+            float v = (float) i / 10;
             this.setOpacity(v);
             try {
                 Thread.sleep(40);
@@ -1217,8 +1437,7 @@ public class mainCafe extends javax.swing.JFrame {
         );
     }
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        if (jCheckBox1.isSelected()) {
+    public void Purchase1() {
             int qty = Integer.parseInt(jSpinner1.getValue().toString());
             if (qtyIsZero(qty)) {
                 v++;
@@ -1234,14 +1453,10 @@ public class mainCafe extends javax.swing.JFrame {
                 product pr = productDAO.getInstance().getProductByName(jtName1.getText());
                 orderDetail.setProduct_id(pr.getId_product());
                 listOrderDetail.add(orderDetail);
-            } else {
-                jCheckBox1.setSelected(false);
-            }
         }
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }
 
-    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
-        if (jCheckBox2.isSelected()) {
+    public void purchase2() {
             int qty = Integer.parseInt(jSpinner2.getValue().toString());
             if (qtyIsZero(qty)) {
                 v++;
@@ -1257,14 +1472,10 @@ public class mainCafe extends javax.swing.JFrame {
                 product pr = productDAO.getInstance().getProductByName(jtName2.getText());
                 orderDetail.setProduct_id(pr.getId_product());
                 listOrderDetail.add(orderDetail);
-            } else {
-                jCheckBox2.setSelected(false);
-            }
         }
-    }//GEN-LAST:event_jCheckBox2ActionPerformed
+    }
 
-    private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
-        if (jCheckBox3.isSelected()) {
+    public void purchase3() {
             int qty = Integer.parseInt(jSpinner3.getValue().toString());
             if (qtyIsZero(qty)) {
                 v++;
@@ -1280,11 +1491,103 @@ public class mainCafe extends javax.swing.JFrame {
                 product pr = productDAO.getInstance().getProductByName(jtName3.getText());
                 orderDetail.setProduct_id(pr.getId_product());
                 listOrderDetail.add(orderDetail);
-            } else {
-                jCheckBox3.setSelected(false);
-            }
         }
-    }//GEN-LAST:event_jCheckBox3ActionPerformed
+    }
+    
+    public void purchase4(){
+            int qty = Integer.parseInt(jSpinner4.getValue().toString());
+            if (qtyIsZero(qty)) {
+                v++;
+                if (v == 1) {
+                    cafeViet();
+                }
+                float price = Float.parseFloat(jtPrice4.getText().substring(0, jtPrice4.getText().indexOf(" ")));
+                total += qty * price;
+                jTextArea1.setText(jTextArea1.getText() + "\n" + "- (" + qty + ")" + jtName4.getText() + "\t\t" + String.format("%.2f", qty * price) + " $");
+                setDataTotal();
+                orderDetail orderDetail = new orderDetail();
+                orderDetail.setQuantity(qty);
+                product pr = productDAO.getInstance().getProductByName(jtName4.getText());
+                orderDetail.setProduct_id(pr.getId_product());
+                listOrderDetail.add(orderDetail);
+        }
+    }
+    
+    public void purchase5(){
+            int qty = Integer.parseInt(jSpinner5.getValue().toString());
+            if (qtyIsZero(qty)) {
+                v++;
+                if (v == 1) {
+                    cafeViet();
+                }
+                float price = Float.parseFloat(jtPrice5.getText().substring(0, jtPrice5.getText().indexOf(" ")));
+                total += qty * price;
+                jTextArea1.setText(jTextArea1.getText() + "\n" + "- (" + qty + ")" + jtName5.getText() + "\t\t" + String.format("%.2f", qty * price) + " $");
+                setDataTotal();
+                orderDetail orderDetail = new orderDetail();
+                orderDetail.setQuantity(qty);
+                product pr = productDAO.getInstance().getProductByName(jtName5.getText());
+                orderDetail.setProduct_id(pr.getId_product());
+                listOrderDetail.add(orderDetail);
+        }
+    }
+    
+    public void purchase6(){
+            int qty = Integer.parseInt(jSpinner6.getValue().toString());
+            if (qtyIsZero(qty)) {
+                v++;
+                if (v == 1) {
+                    cafeViet();
+                }
+                float price = Float.parseFloat(jtPrice6.getText().substring(0, jtPrice6.getText().indexOf(" ")));
+                total += qty * price;
+                jTextArea1.setText(jTextArea1.getText() + "\n" + "- (" + qty + ")" + jtName6.getText() + "\t\t" + String.format("%.2f", qty * price) + " $");
+                setDataTotal();
+                orderDetail orderDetail = new orderDetail();
+                orderDetail.setQuantity(qty);
+                product pr = productDAO.getInstance().getProductByName(jtName6.getText());
+                orderDetail.setProduct_id(pr.getId_product());
+                listOrderDetail.add(orderDetail);
+        }
+    }
+    
+    public void purchase7(){
+            int qty = Integer.parseInt(jSpinner7.getValue().toString());
+            if (qtyIsZero(qty)) {
+                v++;
+                if (v == 1) {
+                    cafeViet();
+                }
+                float price = Float.parseFloat(jtPrice7.getText().substring(0, jtPrice7.getText().indexOf(" ")));
+                total += qty * price;
+                jTextArea1.setText(jTextArea1.getText() + "\n" + "- (" + qty + ")" + jtName7.getText() + "\t\t" + String.format("%.2f", qty * price) + " $");
+                setDataTotal();
+                orderDetail orderDetail = new orderDetail();
+                orderDetail.setQuantity(qty);
+                product pr = productDAO.getInstance().getProductByName(jtName7.getText());
+                orderDetail.setProduct_id(pr.getId_product());
+                listOrderDetail.add(orderDetail);
+        }
+    }
+    
+    public void purchase8(){
+            int qty = Integer.parseInt(jSpinner8.getValue().toString());
+            if (qtyIsZero(qty)) {
+                v++;
+                if (v == 1) {
+                    cafeViet();
+                }
+                float price = Float.parseFloat(jtPrice8.getText().substring(0, jtPrice8.getText().indexOf(" ")));
+                total += qty * price;
+                jTextArea1.setText(jTextArea1.getText() + "\n" + "- (" + qty + ")" + jtName8.getText() + "\t\t" + String.format("%.2f", qty * price) + " $");
+                setDataTotal();
+                orderDetail orderDetail = new orderDetail();
+                orderDetail.setQuantity(qty);
+                product pr = productDAO.getInstance().getProductByName(jtName8.getText());
+                orderDetail.setProduct_id(pr.getId_product());
+                listOrderDetail.add(orderDetail);
+        }
+    }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (total == 0) {
@@ -1298,21 +1601,19 @@ public class mainCafe extends javax.swing.JFrame {
                     + "******************THANK YOU*****************"
             );
             var date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-            order or = new order(1, date, total+tax, selers_name);
+            order or = new order(1, date, total + tax, selers_name);
             orderDAO.getInstance().insert(or);
-            
+
             or = orderDAO.getInstance().getOrderNew();
             for (orderDetail vi : listOrderDetail) {
                 vi.setOrder_id(or.getId_order());
                 orderDetailDAO.getInstance().insert(vi);
             }
-            
+
             JOptionPane.showMessageDialog(null, "Successful purchase!\nYou can issue an invoice!");
 
             jButton1.setEnabled(false);
-            for (JCheckBox jCheckBox : listCheckBox) {
-                jCheckBox.setEnabled(false);
-            }
+
             for (JSpinner jSpinner : listQuantity) {
                 jSpinner.setEnabled(false);
             }
@@ -1349,124 +1650,9 @@ public class mainCafe extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
-        if (jCheckBox4.isSelected()) {
-            int qty = Integer.parseInt(jSpinner4.getValue().toString());
-            if (qtyIsZero(qty)) {
-                v++;
-                if (v == 1) {
-                    cafeViet();
-                }
-                float price = Float.parseFloat(jtPrice4.getText().substring(0, jtPrice4.getText().indexOf(" ")));
-                total += qty * price;
-                jTextArea1.setText(jTextArea1.getText() + "\n" + "- (" + qty + ")" + jtName4.getText() + "\t\t" + String.format("%.2f", qty * price) + " $");
-                setDataTotal();
-                orderDetail orderDetail = new orderDetail();
-                orderDetail.setQuantity(qty);
-                product pr = productDAO.getInstance().getProductByName(jtName4.getText());
-                orderDetail.setProduct_id(pr.getId_product());
-                listOrderDetail.add(orderDetail);
-            } else {
-                jCheckBox4.setSelected(false);
-            }
-        }
-    }//GEN-LAST:event_jCheckBox4ActionPerformed
-
-    private void jCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox5ActionPerformed
-        if (jCheckBox5.isSelected()) {
-            int qty = Integer.parseInt(jSpinner5.getValue().toString());
-            if (qtyIsZero(qty)) {
-                v++;
-                if (v == 1) {
-                    cafeViet();
-                }
-                float price = Float.parseFloat(jtPrice5.getText().substring(0, jtPrice5.getText().indexOf(" ")));
-                total += qty * price;
-                jTextArea1.setText(jTextArea1.getText() + "\n" + "- (" + qty + ")" + jtName5.getText() + "\t\t" + String.format("%.2f", qty * price) + " $");
-                setDataTotal();
-                orderDetail orderDetail = new orderDetail();
-                orderDetail.setQuantity(qty);
-                product pr = productDAO.getInstance().getProductByName(jtName5.getText());
-                orderDetail.setProduct_id(pr.getId_product());
-                listOrderDetail.add(orderDetail);
-            } else {
-                jCheckBox5.setSelected(false);
-            }
-        }
-    }//GEN-LAST:event_jCheckBox5ActionPerformed
-
-    private void jCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox6ActionPerformed
-        if (jCheckBox6.isSelected()) {
-            int qty = Integer.parseInt(jSpinner6.getValue().toString());
-            if (qtyIsZero(qty)) {
-                v++;
-                if (v == 1) {
-                    cafeViet();
-                }
-                float price = Float.parseFloat(jtPrice6.getText().substring(0, jtPrice6.getText().indexOf(" ")));
-                total += qty * price;
-                jTextArea1.setText(jTextArea1.getText() + "\n" + "- (" + qty + ")" + jtName6.getText() + "\t\t" + String.format("%.2f", qty * price) + " $");
-                setDataTotal();
-                orderDetail orderDetail = new orderDetail();
-                orderDetail.setQuantity(qty);
-                product pr = productDAO.getInstance().getProductByName(jtName6.getText());
-                orderDetail.setProduct_id(pr.getId_product());
-                listOrderDetail.add(orderDetail);
-            } else {
-                jCheckBox6.setSelected(false);
-            }
-        }
-    }//GEN-LAST:event_jCheckBox6ActionPerformed
-
-    private void jCheckBox7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox7ActionPerformed
-        if (jCheckBox7.isSelected()) {
-            int qty = Integer.parseInt(jSpinner7.getValue().toString());
-            if (qtyIsZero(qty)) {
-                v++;
-                if (v == 1) {
-                    cafeViet();
-                }
-                float price = Float.parseFloat(jtPrice7.getText().substring(0, jtPrice7.getText().indexOf(" ")));
-                total += qty * price;
-                jTextArea1.setText(jTextArea1.getText() + "\n" + "- (" + qty + ")" + jtName7.getText() + "\t\t" + String.format("%.2f", qty * price) + " $");
-                setDataTotal();
-                orderDetail orderDetail = new orderDetail();
-                orderDetail.setQuantity(qty);
-                product pr = productDAO.getInstance().getProductByName(jtName7.getText());
-                orderDetail.setProduct_id(pr.getId_product());
-                listOrderDetail.add(orderDetail);
-            } else {
-                jCheckBox7.setSelected(false);
-            }
-        }
-    }//GEN-LAST:event_jCheckBox7ActionPerformed
-
-    private void jCheckBox8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox8ActionPerformed
-        if (jCheckBox8.isSelected()) {
-            int qty = Integer.parseInt(jSpinner8.getValue().toString());
-            if (qtyIsZero(qty)) {
-                v++;
-                if (v == 1) {
-                    cafeViet();
-                }
-                float price = Float.parseFloat(jtPrice8.getText().substring(0, jtPrice8.getText().indexOf(" ")));
-                total += qty * price;
-                jTextArea1.setText(jTextArea1.getText() + "\n" + "- (" + qty + ")" + jtName8.getText() + "\t\t" + String.format("%.2f", qty * price) + " $");
-                setDataTotal();
-                orderDetail orderDetail = new orderDetail();
-                orderDetail.setQuantity(qty);
-                product pr = productDAO.getInstance().getProductByName(jtName8.getText());
-                orderDetail.setProduct_id(pr.getId_product());
-                listOrderDetail.add(orderDetail);
-            } else {
-                jCheckBox8.setSelected(false);
-            }
-        }
-    }//GEN-LAST:event_jCheckBox8ActionPerformed
-
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         for (int i = 0; i < 10; i++) {
-            float v = (float) i/10;
+            float v = (float) i / 10;
             this.setOpacity(v);
             try {
                 Thread.sleep(50);
@@ -1475,6 +1661,140 @@ public class mainCafe extends javax.swing.JFrame {
         }
         this.setOpacity(1);
     }//GEN-LAST:event_formWindowOpened
+
+    public void resetClickSpin() {
+
+        for (JLabel jLabel : listPurchase) {
+            jLabel.setEnabled(true);
+        }
+        
+        for (JSpinner jSpinner : listQuantity) {
+            jSpinner.setEnabled(true);
+            jSpinner.setValue(0);
+        }
+    }
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        //next
+        resetClickSpin();
+        soTrang.setText(soTrang_int + 1 + "");
+        soTrang_int++;
+        jLabel8.setEnabled(true);
+        int so_trang = Integer.parseInt(soTrang.getText());
+        if (so_trang == total_soTrang) {
+            jLabel7.setEnabled(false);
+        }
+        setImg(soTrang_int);
+    }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        //back
+        resetClickSpin();
+        soTrang.setText(soTrang_int - 1 + "");
+        soTrang_int--;
+        jLabel7.setEnabled(true);
+        int so_trang = Integer.parseInt(soTrang.getText());
+        if (so_trang == 1) {
+            jLabel8.setEnabled(false);
+        }
+        setImg(soTrang_int);
+    }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void purchase1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase1MouseClicked
+        Purchase1();
+    }//GEN-LAST:event_purchase1MouseClicked
+
+    private void purchase1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase1MouseEntered
+        purchase1.setText("PURCHASE");
+    }//GEN-LAST:event_purchase1MouseEntered
+
+    private void purchase1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase1MouseExited
+        purchase1.setText("Purchase");
+    }//GEN-LAST:event_purchase1MouseExited
+
+    private void purchase2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase2MouseClicked
+        purchase2();
+    }//GEN-LAST:event_purchase2MouseClicked
+
+    private void purchase2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase2MouseEntered
+        purchase2.setText("PURCHASE");
+    }//GEN-LAST:event_purchase2MouseEntered
+
+    private void purchase2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase2MouseExited
+        purchase2.setText("Purchase");
+    }//GEN-LAST:event_purchase2MouseExited
+
+    private void purchase3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase3MouseClicked
+        purchase3();
+    }//GEN-LAST:event_purchase3MouseClicked
+
+    private void purchase3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase3MouseEntered
+        purchase3.setText("PURCHASE");
+    }//GEN-LAST:event_purchase3MouseEntered
+
+    private void purchase3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase3MouseExited
+        purchase3.setText("Purchase");
+    }//GEN-LAST:event_purchase3MouseExited
+
+    private void purchase4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase4MouseClicked
+        purchase4();
+    }//GEN-LAST:event_purchase4MouseClicked
+
+    private void purchase4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase4MouseEntered
+        purchase4.setText("PURCHASE");
+    }//GEN-LAST:event_purchase4MouseEntered
+
+    private void purchase4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase4MouseExited
+        purchase4.setText("Purchase");
+    }//GEN-LAST:event_purchase4MouseExited
+
+    private void purchase5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase5MouseClicked
+        purchase5();
+    }//GEN-LAST:event_purchase5MouseClicked
+
+    private void purchase5MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase5MouseEntered
+        purchase5.setText("PURCHASE");
+    }//GEN-LAST:event_purchase5MouseEntered
+
+    private void purchase5MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase5MouseExited
+        jLabel4.setText("Purchase");
+    }//GEN-LAST:event_purchase5MouseExited
+
+    private void purchase6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase6MouseClicked
+        purchase6();
+    }//GEN-LAST:event_purchase6MouseClicked
+
+    private void purchase6MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase6MouseEntered
+        purchase6.setText("PURCHASE");
+    }//GEN-LAST:event_purchase6MouseEntered
+
+    private void purchase6MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase6MouseExited
+        purchase6.setText("Purchase");
+    }//GEN-LAST:event_purchase6MouseExited
+
+    private void purchase7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase7MouseClicked
+        purchase7();
+    }//GEN-LAST:event_purchase7MouseClicked
+
+    private void purchase7MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase7MouseEntered
+        purchase7.setText("PURCHASE");
+    }//GEN-LAST:event_purchase7MouseEntered
+
+    private void purchase7MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase7MouseExited
+        purchase7.setText("Purchase");
+    }//GEN-LAST:event_purchase7MouseExited
+
+    private void purchase8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase8MouseClicked
+        purchase8();
+    }//GEN-LAST:event_purchase8MouseClicked
+
+    private void purchase8MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase8MouseEntered
+        purchase8.setText("PURCHASE");
+    }//GEN-LAST:event_purchase8MouseEntered
+
+    private void purchase8MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase8MouseExited
+        purchase8.setText("Purchase");
+    }//GEN-LAST:event_purchase8MouseExited
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -1495,60 +1815,58 @@ public class mainCafe extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JCheckBox jCheckBox7;
-    private javax.swing.JCheckBox jCheckBox8;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
-    private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
-    private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel56;
-    private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel61;
     private javax.swing.JLabel jLabel62;
-    private javax.swing.JLabel jLabel63;
     private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel65;
-    private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel67;
     private javax.swing.JLabel jLabel68;
-    private javax.swing.JLabel jLabel69;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel70;
     private javax.swing.JLabel jLabel71;
-    private javax.swing.JLabel jLabel72;
     private javax.swing.JLabel jLabel73;
     private javax.swing.JLabel jLabel74;
-    private javax.swing.JLabel jLabel75;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelDate;
     private javax.swing.JLabel jLabelTime;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner2;
@@ -1586,5 +1904,14 @@ public class mainCafe extends javax.swing.JFrame {
     private javax.swing.JLabel jtPrice6;
     private javax.swing.JLabel jtPrice7;
     private javax.swing.JLabel jtPrice8;
+    private javax.swing.JLabel purchase1;
+    private javax.swing.JLabel purchase2;
+    private javax.swing.JLabel purchase3;
+    private javax.swing.JLabel purchase4;
+    private javax.swing.JLabel purchase5;
+    private javax.swing.JLabel purchase6;
+    private javax.swing.JLabel purchase7;
+    private javax.swing.JLabel purchase8;
+    private javax.swing.JLabel soTrang;
     // End of variables declaration//GEN-END:variables
 }

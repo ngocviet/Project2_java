@@ -26,12 +26,12 @@ public class orderDAO implements DAOinterface<order> {
             PreparedStatement pst = con.prepareStatement(sql);
 
             ResultSet rs = pst.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int id_order = rs.getInt("id_order");
                 java.sql.Date date = rs.getDate("createDate");
                 Float totalPrice = rs.getFloat("TotalPrice");
                 String selers = rs.getString("selers");
-                
+
                 kq = new order(id_order, date, totalPrice, selers);
             }
 
@@ -44,6 +44,7 @@ public class orderDAO implements DAOinterface<order> {
         }
         return kq;
     }
+
     public ArrayList<order> getAll() {
         ArrayList<order> kq = selectAll();
 
@@ -132,26 +133,26 @@ public class orderDAO implements DAOinterface<order> {
         ArrayList<order> list = new ArrayList<>();
         try {
             Connection con = JDBCUtil.getConnection();
-            
+
             String sql = "SELECT * FROM orderr";
-            
+
             PreparedStatement pst = con.prepareStatement(sql);
-            
-            ResultSet rs =  pst.executeQuery();
-            while(rs.next()){
+
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
                 int id = rs.getInt("id_order");
                 Float price = rs.getFloat("TotalPrice");
                 String selers = rs.getString("selers");
                 Date date = rs.getDate("createDate");
                 int status = rs.getInt("status");
-                
+
                 order o = new order(id, date, price, selers);
                 o.setStatus(status);
                 list.add(o);
             }
-            
-            System.out.println("Ban da thuc hien "+sql);
-            
+
+            System.out.println("Ban da thuc hien " + sql);
+
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
             e.printStackTrace();
@@ -164,26 +165,26 @@ public class orderDAO implements DAOinterface<order> {
         order kq = new order();
         try {
             Connection con = JDBCUtil.getConnection();
-            
+
             String sql = "SELECT * FROM orderr WHERE id_order = ?";
-            
+
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, t.getId_order());
-            
-            ResultSet rs =  pst.executeQuery();
-            while(rs.next()){
+
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
                 int id = rs.getInt("id_order");
                 Float price = rs.getFloat("TotalPrice");
                 String selers = rs.getString("selers");
                 Date date = rs.getDate("createDate");
                 int status = rs.getInt("status");
-                
+
                 kq = new order(id, date, price, selers);
                 kq.setStatus(status);
             }
-            
-            System.out.println("Ban da thuc hien "+sql);
-            
+
+            System.out.println("Ban da thuc hien " + sql);
+
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
             e.printStackTrace();
@@ -193,7 +194,34 @@ public class orderDAO implements DAOinterface<order> {
 
     @Override
     public ArrayList<order> selectByCondition(String condition) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<order> list = new ArrayList<>();
+        try {
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = "SELECT * FROM orderr WHERE " + condition;
+
+            PreparedStatement pst = con.prepareStatement(sql);
+
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id_order");
+                Float price = rs.getFloat("TotalPrice");
+                String selers = rs.getString("selers");
+                Date date = rs.getDate("createDate");
+                int status = rs.getInt("status");
+
+                order o = new order(id, date, price, selers);
+                o.setStatus(status);
+                list.add(o);
+            }
+            System.out.println("Ban da thuc hien " + sql);
+
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
 }

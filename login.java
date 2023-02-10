@@ -2,6 +2,7 @@ package jf;
 
 import dao.accountDAO;
 import java.awt.Image;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -136,7 +137,7 @@ public class login extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         for (int i = 10; i > 1; i--) {
-            float v = (float) i/10;
+            float v = (float) i / 10;
             this.setOpacity(v);
             try {
                 Thread.sleep(20);
@@ -196,17 +197,30 @@ public class login extends javax.swing.JFrame {
         if (isEmpty()) {
             String user = username.getText();
             String pass = String.valueOf(password.getPassword());
-            boolean v = false;
-            ArrayList<account> listAc = accountDAO.getInstance().selectAll();
+            String passHash = "";
+            try {
+                MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+                messageDigest.update(pass.getBytes());
+                byte[] resultByteArray = messageDigest.digest();
+                StringBuilder sb = new StringBuilder();
+
+                for (byte b : resultByteArray) {
+                    sb.append(String.format("%02x", b));
+                }
+                passHash = sb.toString();
+            } catch (Exception e) {
+            }
+            System.out.println(passHash);
+            ArrayList<account> listAc = accountDAO.getInstance().getAll();
             for (account ac : listAc) {
-                if (ac.getUsername().equals(user) && ac.getPass().equals(pass)) {
+                if (ac.getUsername().equals(user) && ac.getPass().equals(pass) && ac.getPassHash().equals(passHash)) {
                     if (ac.getPermission() == 0) {
                         mainCafe main = new mainCafe();
                         main.setVisible(true);
-                        main.setSelers("Viet");
+                        main.setSelers(ac.getName());
                         main.pack();
                         this.dispose();
-                    }else{
+                    } else {
                         mainAdmin main = new mainAdmin();
                         main.setVisible(true);
                         main.pack();

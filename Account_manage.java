@@ -2,6 +2,7 @@ package jf;
 
 import dao.accountDAO;
 import java.awt.Image;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -219,8 +220,21 @@ public class Account_manage extends javax.swing.JFrame {
             return;
         }
         String username = jTextField1.getText();
+        String passHash = "";
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.update(jPasswordField1.getPassword().toString().getBytes());
+            byte[] resultByteArray = messageDigest.digest();
+            StringBuilder sb = new StringBuilder();
+
+            for (byte b : resultByteArray) {
+                sb.append(String.format("%02x", b));
+            }
+            passHash = sb.toString();
+        } catch (Exception e) {
+        }
         if (jLabel1.getText().equals("Add Account")) {
-            ArrayList<account> list = accountDAO.getInstance().selectAll();
+            ArrayList<account> list = accountDAO.getInstance().getAll();
 
             for (account v : list) {
                 if (v.getUsername().equals(username)) {
@@ -228,15 +242,20 @@ public class Account_manage extends javax.swing.JFrame {
                     resetForm();
                     return;
                 }
+                if (v.getName().equals(jTextField2.getText())) {
+                    JOptionPane.showMessageDialog(null, "Selers name exits! Please enter adgain!");
+                    resetForm();
+                    return;
+                }
             }
             int permission = jComboBox1.getSelectedIndex();
-            account ac = new account(1, username, jPasswordField1.getText(), "", permission == 1 ? 1 : 0, jTextField2.getText());
+            account ac = new account(1, username, jPasswordField1.getText(), passHash, permission == 1 ? 1 : 0, jTextField2.getText());
             accountDAO.getInstance().insert(ac);
         } else {
             int permission = jComboBox1.getSelectedIndex();
             account ac = accountDAO.getInstance().getAccByUsername(username);
             int id = ac.getId_account();
-            ac = new account(id, username, jPasswordField1.getText(), "", permission == 1 ? 1 : 0, jTextField2.getText());
+            ac = new account(id, username, jPasswordField1.getText(), passHash, permission == 1 ? 1 : 0, jTextField2.getText());
             accountDAO.getInstance().update(ac);
         }
         manageAccount.displayDataFromSQL();
@@ -252,7 +271,7 @@ public class Account_manage extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Account_manage().setVisible(true);

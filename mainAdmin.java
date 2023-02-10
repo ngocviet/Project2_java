@@ -506,7 +506,7 @@ public class mainAdmin extends javax.swing.JFrame {
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
         jPanel3.removeAll();
         jPanel3.setLayout(new BorderLayout());
-        jPanel3.add(new ManageOrderDetail());
+        jPanel3.add(new ManageStatistical());
         jPanel3.validate();
         jPanel3.repaint();
         jLabel7.setForeground(Color.white);

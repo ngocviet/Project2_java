@@ -46,7 +46,7 @@ public class Product_manage extends javax.swing.JFrame {
         id_product = pr.getId_product();
         current_position = pr.getPosition();
         product prr = productDAO.getInstance().getPrHasPositionMax();
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(pr.getPosition(), 0, prr.getPosition(), 1));
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(pr.getPosition(), 1, prr.getPosition(), 1));
     }
 
     @SuppressWarnings("unchecked")
@@ -110,7 +110,7 @@ public class Product_manage extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, 100, -1));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, 100, -1));
 
         jButton2.setBackground(new java.awt.Color(255, 0, 0));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
@@ -122,7 +122,7 @@ public class Product_manage extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 350, 100, -1));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 350, 100, -1));
 
         jTPrice.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jPanel1.add(jTPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, 210, 30));

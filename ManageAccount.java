@@ -34,6 +34,7 @@ public class ManageAccount extends javax.swing.JPanel {
             DefaultTableModel tbModel = (DefaultTableModel) this.jTable.getModel();
             tbModel.addRow(data);
         });
+        jlrowCount.setText(jTable.getRowCount()+"");
     }
 
     @SuppressWarnings("unchecked")
@@ -46,6 +47,8 @@ public class ManageAccount extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jlrowCount = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 30, 40));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -105,6 +108,18 @@ public class ManageAccount extends javax.swing.JPanel {
             }
         });
         add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, 120, 40));
+
+        jLabel4.setBackground(new java.awt.Color(139, 0, 9));
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Amount Row :");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 80, -1, 40));
+
+        jlrowCount.setBackground(new java.awt.Color(139, 0, 9));
+        jlrowCount.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jlrowCount.setForeground(new java.awt.Color(255, 255, 255));
+        jlrowCount.setText(" $");
+        add(jlrowCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 80, -1, 40));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -124,7 +139,7 @@ public class ManageAccount extends javax.swing.JPanel {
             if (luaChon == JOptionPane.YES_OPTION) {
                 tk.setStatus(0);
                 accountDAO.getInstance().update(tk);
-                tbmodel.removeRow(jTable.getSelectedRow());
+                displayDataFromSQL();
                 JOptionPane.showMessageDialog(this, "Delete Successfully!");
             }
         } else {
@@ -166,7 +181,9 @@ public class ManageAccount extends javax.swing.JPanel {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable;
+    private javax.swing.JLabel jlrowCount;
     // End of variables declaration//GEN-END:variables
 }

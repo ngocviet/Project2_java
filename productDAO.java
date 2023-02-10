@@ -43,7 +43,7 @@ public class productDAO implements DAOinterface<product> {
         product kq = new product();
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "SELECT * FROM product WHERE position = (SELECT MAX(position) FROM product) AND status = 1";
+            String sql = "SELECT * FROM product WHERE position = (SELECT MAX(position) FROM product WHERE status =1)";
             PreparedStatement st = con.prepareStatement(sql);
 
             ResultSet rs = st.executeQuery();
@@ -78,13 +78,17 @@ public class productDAO implements DAOinterface<product> {
         return kq;
     }
 
-    public ArrayList<product> selectProductDisplay() {
-        ArrayList<product> list = this.selectAll();
+    public ArrayList<product> selectProductDisplay(int soTrang) {
 
+        int indexE = 8 * soTrang;
+        int indexS = (soTrang - 1) * 8 + 1;
+        ArrayList<product> list = this.getAll();
         list = (ArrayList<product>) list.stream().filter((v) -> {
-            return v.getPosition() != 0 && v.getPosition() <= 8;
+            return v.getPosition() != 0 && v.getPosition() <= indexE && v.getPosition() >= (soTrang == 1 ? 1 : indexS);
         }).collect(Collectors.toList());
-        System.out.println(list);
+//        list = (ArrayList<product>) list.stream().filter((v) -> {
+//            return v.getPosition() <= 16 && v.getPosition() >= 9;
+//        }).collect(Collectors.toList());
 
         list = (ArrayList<product>) list.stream().sorted((o1, o2) -> {
             int kq = (int) (o1.getPosition() - o2.getPosition());
