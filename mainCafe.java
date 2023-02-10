@@ -124,7 +124,6 @@ public class mainCafe extends javax.swing.JFrame {
 
         int n = list.size();
         for (int i = 0; i < n; i++) {
-            System.out.println(i);
             ImageIcon icon1 = new ImageIcon(getClass().getResource("/img/" + list.get(i).getImg()));
             Image img1 = icon1.getImage().getScaledInstance(listJlAnh.get(i).getWidth(), listJlAnh.get(i).getHeight(), Image.SCALE_SMOOTH);
             listJlAnh.get(i).setIcon(new ImageIcon(img1));
@@ -1444,7 +1443,7 @@ public class mainCafe extends javax.swing.JFrame {
                 if (v == 1) {
                     cafeViet();
                 }
-                float price = Float.parseFloat(jtPrice1.getText().substring(0, jtPrice2.getText().indexOf(" ")));
+                float price = Float.parseFloat(jtPrice1.getText().substring(0, jtPrice1.getText().indexOf(" ")));
                 total += qty * price;
                 jTextArea1.setText(jTextArea1.getText() + "\n" + "- (" + qty + ")" + jtName1.getText() + "\t" + String.format("%.2f", qty * price) + " $");
                 setDataTotal();
